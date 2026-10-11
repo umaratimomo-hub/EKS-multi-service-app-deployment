@@ -17,9 +17,23 @@ permissions:
   contents: read
 
 jobs:
-  ci-and-build:
-    name: Application CI & Container Build
+  lint-dockerfiles:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        service:
+          - name: vote
+            path: voting-app/vote/Dockerfile
+            context: voting-app/vote
+          - name: worker
+            path: voting-app/worker/Dockerfile
+            context: voting-app/vote
+          - name: result
+            path: voting-app/result/Dockerfile
+            context: voting-app/vote
+          - name: seed-data
+            path: voting-app/seed-data/Dockerfile
+            context: voting-app/seed-data
 
     steps:
       - name: Checkout Application Code
@@ -28,7 +42,7 @@ jobs:
       - name: Lint Dockerfile with Hadolint
         uses: hadolint/hadolint-action@v3.1.0
         with:
-          dockerfile: voting-app/vote/Dockerfile
+          dockerfile: ${{ matrix.service.path }}
           failure-threshold: error
 
       - name: Run Application Tests
@@ -42,14 +56,14 @@ jobs:
             #   REGISTRY: ${{ steps.login-ecr.outputs.registry }}
             #   REPO: ${{ env.ECR_REPOSITORY }}
         run: |
-              TAG="vote:latest"
+              TAG="${{ matrix.service.name }}:latest"
               # if [ "$EVENT_NAME" = "pull_request" ]; then
               #   TAG="test-build:latest"
               # else
               #   TAG="$REGISTRY/$REPO:latest"
               # fi
               echo "Building image tagged as $TAG..."
-              docker build -t "$TAG" voting-app/vote
+              docker build -t "$TAG" ${{ matrix.service.context }}
               echo "image_tag=$TAG" >> "$GITHUB_OUTPUT"
 
       - name: Run Trivy Vulnerability Scanner
