@@ -50,7 +50,7 @@ jobs:
               # fi
               echo "Building image tagged as $TAG..."
               docker build -t "$TAG" voting-app/vote
-              #echo "image_tag=$TAG" >> "$GITHUB_OUTPUT"
+              echo "image_tag=$TAG" >> "$GITHUB_OUTPUT"
 
       - name: Run Trivy Vulnerability Scanner
         uses: aquasecurity/trivy-action@0.35.0
