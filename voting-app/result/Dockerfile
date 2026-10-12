@@ -1,26 +1,47 @@
-FROM node:20-alpine AS build
+# FROM node:20-alpine AS build
+# WORKDIR /app
+# COPY package*.json ./
+# RUN npm ci
+# COPY . .
+
+# FROM node:20-alpine AS final
+# WORKDIR /app
+# COPY package*.json ./
+# RUN npm ci --omit=dev && npm cache clean --force
+# COPY --from=build /app/server.js .
+
+# ARG UID=10001
+# RUN adduser \
+#     --disabled-password \
+#     --gecos "" \
+#     --home "/nonexistent" \
+#     --shell "/sbin/nologin" \
+#     --no-create-home \
+#     --uid "${UID}" \
+#     appuser
+# USER appuser
+
+# EXPOSE 8081
+# CMD ["node", "server.js"]
+
+
+FROM node:22-alpine AS build
+
 WORKDIR /app
+
 COPY package*.json ./
-RUN npm ci
+RUN npm ci --omit=dev
+
 COPY . .
 
-FROM scratch AS final
+FROM gcr.io/distroless/nodejs22-debian13:nonroot AS final
 
-COPY --from=build /app .
+WORKDIR /app
 
-ARG UID=10001
-RUN adduser \
-    --disabled-password \
-    --gecos "" \
-    --home "/nonexistent" \
-    --shell "/sbin/nologin" \
-    --no-create-home \
-    --uid "${UID}" \
-    appuser
-USER appuser
+COPY --from=build --chown=nonroot:nonroot /app/ /app/
 
-HEALTHCHECK --interval=5m --timeout=3s \
-  CMD curl -f http://localhost/ || exit 1
+ENV NODE_ENV=production
 
 EXPOSE 8081
-CMD ["node", "server.js"]
+
+CMD ["server.js"]
