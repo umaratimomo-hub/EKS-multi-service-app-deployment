@@ -31,9 +31,9 @@ jobs:
           - name: result
             path: voting-app/result/Dockerfile
             context: voting-app/result
-          # - name: seed-data
-          #   path: voting-app/seed-data/Dockerfile
-          #   context: voting-app/seed-data
+          - name: seed-data
+            path: voting-app/seed-data/Dockerfile
+            context: voting-app/seed-data
 
     steps:
       - name: Checkout Application Code
