@@ -4,7 +4,7 @@ on:
   push:
     branches: [ main ]
     paths:
-      #- 'voting-app/**'
+      - 'voting-app/**'
       - 'voting-app/result/Dockerfile'
       - 'voting-app/seed-data/Dockerfile'
       - 'voting-app/vote/Dockerfile'
