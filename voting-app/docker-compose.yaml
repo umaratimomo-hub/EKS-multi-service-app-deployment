@@ -2,7 +2,7 @@ services:
   vote:
     build: ./vote
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:80"]
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:80')"]
       interval: 15s
       timeout: 5s
       retries: 3

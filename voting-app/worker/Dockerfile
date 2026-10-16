@@ -9,6 +9,8 @@ RUN dotnet publish -c Release -o /app/publish --no-restore
 FROM mcr.microsoft.com/dotnet/runtime:7.0 AS final
 
 WORKDIR /app
-COPY --from=build /app/publish .
+COPY --from=build --chown=1654:1654 /app/publish .
+
+USER 1654
 
 ENTRYPOINT ["dotnet", "Worker.dll"]
