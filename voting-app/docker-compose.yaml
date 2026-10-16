@@ -1,7 +1,7 @@
 services:
   vote:
     build: ./vote
-    healthcheck: 
+    healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:80"]
       interval: 15s
       timeout: 5s
@@ -72,7 +72,7 @@ services:
     profiles: ["seed-data"]
     depends_on:
       vote:
-        condition: service_healthy 
+        condition: service_healthy
     networks:
       - frontend
     restart: "no"
@@ -83,12 +83,12 @@ volumes:
 networks:
   frontend:
   backend:
-      
 
 
 
 
-  
+
+
 
 
 

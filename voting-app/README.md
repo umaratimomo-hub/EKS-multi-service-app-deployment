@@ -14,7 +14,7 @@ The voting application consists of the following components:
 - **Vote Service** (`/vote`): Python Flask web application that provides the voting interface
 - **Result Service** (`/result`): Node.js web application that displays real-time voting results
 
-### Backend Services  
+### Backend Services
 - **Worker Service** (`/worker`): .NET worker application that processes votes from the queue
 - **Redis**: Message broker that queues votes for processing
 - **PostgreSQL**: Database that stores the final vote counts
@@ -28,7 +28,7 @@ The voting application consists of the following components:
 ### Network Architecture
 The application should use a **two-tier network architecture** for security and organization:
 
-- **Frontend Tier Network**: 
+- **Frontend Tier Network**:
   - Vote service (port 8080)
   - Result service (port 8081)
   - Accessible from outside the Docker environment
@@ -48,7 +48,7 @@ As a DevOps engineer, your task is to containerize this application and create t
 ### 1. Docker Files
 Create `Dockerfile` for each service:
 - `vote/Dockerfile` - for the Python Flask application
-- `result/Dockerfile` - for the Node.js application  
+- `result/Dockerfile` - for the Node.js application
 - `worker/Dockerfile` - for the .NET worker application
 - `seed-data/Dockerfile` - for the data seeding utility
 

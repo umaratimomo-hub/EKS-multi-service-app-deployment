@@ -1,12 +1,14 @@
 FROM node:8.9-slim
 
-RUN apt-get update -qq && apt-get install -qy \ 
+# hadolint ignore=DL3008,DL3009
+RUN apt-get update -qq && apt-get install -qy \
     ca-certificates \
     bzip2 \
     curl \
     libfontconfig \
     --no-install-recommends
+
 RUN yarn global add phantomjs-prebuilt
-ADD . /app
+COPY . /app
 WORKDIR /app
 CMD ["/app/tests.sh"]
