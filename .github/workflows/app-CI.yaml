@@ -6,9 +6,9 @@ on:
     paths:
       - 'voting-app/**'
       - 'voting-app/result/Dockerfile'
-      - 'voting-app/seed-data/Dockerfile'
       - 'voting-app/vote/Dockerfile'
       - 'voting-app/worker/Dockerfile'
+      #- 'voting-app/seed-data/Dockerfile'
 
   workflow_dispatch:
 
