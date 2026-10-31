@@ -1,5 +1,6 @@
 services:
   vote:
+    image: voting-app-vote-v1:1.0.0
     build: ./vote
     healthcheck:
       test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:80')"]
@@ -16,6 +17,7 @@ services:
       redis:
         condition: service_healthy
   result:
+    image: voting-app-result-v1:1.0.0
     build: ./result
     networks:
       - frontend
@@ -26,6 +28,7 @@ services:
       db:
         condition: service_healthy
   worker:
+    image: voting-app-worker-v1:1.0.0
     build: ./worker
     networks:
       - backend
@@ -83,20 +86,3 @@ volumes:
 networks:
   frontend:
   backend:
-
-
-
-
-
-
-
-
-
-
-    # Specify driver options
-  #   driver: bridge
-  #   driver_opts:
-  #     com.docker.network.bridge.host_binding_ipv4: "127.0.0.1"
-  # backend:
-  #   # Use a custom driver
-  #   driver: custom-driver

@@ -18,4 +18,4 @@ ENV PYTHONPATH="/deps:/app"
 
 EXPOSE 80
 
-CMD ["app.py"]
+CMD ["-m", "gunicorn", "--bind=0.0.0.0:80", "--workers=1", "--threads=2", "--no-control-socket", "app:app"]

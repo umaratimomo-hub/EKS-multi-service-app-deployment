@@ -16,8 +16,16 @@ namespace Worker
         {
             try
             {
-                var pgsql = OpenDbConnection("Server=db;Username=postgres;Password=postgres;");
-                var redisConn = OpenRedisConnection("redis");
+                var dbConnectionString = new NpgsqlConnectionStringBuilder
+                {
+                    Host = Environment.GetEnvironmentVariable("DB_HOST"),
+                    Username = Environment.GetEnvironmentVariable("POSTGRES_USER"),
+                    Password = Environment.GetEnvironmentVariable("POSTGRES_PASSWORD")
+                }.ConnectionString;
+
+                var pgsql = OpenDbConnection(dbConnectionString);
+                var redisConn = OpenRedisConnection(
+                    Environment.GetEnvironmentVariable("REDIS_HOST"));
                 var redis = redisConn.GetDatabase();
 
                 // Keep alive is not implemented in Npgsql yet. This workaround was recommended:
@@ -34,7 +42,8 @@ namespace Worker
                     // Reconnect redis if down
                     if (redisConn == null || !redisConn.IsConnected) {
                         Console.WriteLine("Reconnecting Redis");
-                        redisConn = OpenRedisConnection("redis");
+                        redisConn = OpenRedisConnection(
+                            Environment.GetEnvironmentVariable("REDIS_HOST"));
                         redis = redisConn.GetDatabase();
                     }
                     string json = redis.ListLeftPopAsync("votes").Result;
@@ -46,7 +55,7 @@ namespace Worker
                         if (!pgsql.State.Equals(System.Data.ConnectionState.Open))
                         {
                             Console.WriteLine("Reconnecting DB");
-                            pgsql = OpenDbConnection("Server=db;Username=postgres;Password=postgres;");
+                            pgsql = OpenDbConnection(dbConnectionString);
                         }
                         else
                         { // Normal +1 vote requested
