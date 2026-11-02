@@ -28,17 +28,22 @@ spec:
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 4000
+          startupProbe:
+            httpGet:
+              path: /
+              port: 4000
+            periodSeconds: 5
+            timeoutSeconds: 2
+            failureThreshold: 30
           readinessProbe:
             httpGet:
               path: /
               port: 4000
-            initialDelaySeconds: 5
             periodSeconds: 10
           livenessProbe:
             httpGet:
               path: /
               port: 4000
-            initialDelaySeconds: 10
             periodSeconds: 15
           securityContext:
             runAsNonRoot: true
