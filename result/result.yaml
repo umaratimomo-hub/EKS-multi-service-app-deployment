@@ -46,6 +46,8 @@ spec:
               port: 4000
             periodSeconds: 15
           securityContext:
+            seccompProfile:
+              type: RuntimeDefault
             runAsNonRoot: true
             allowPrivilegeEscalation: false
             readOnlyRootFilesystem: true

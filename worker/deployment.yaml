@@ -48,6 +48,8 @@ spec:
           image: voting-app-worker-v1:1.1.2
           imagePullPolicy: IfNotPresent
           securityContext:
+            seccompProfile:
+              type: RuntimeDefault
             runAsNonRoot: true
             allowPrivilegeEscalation: false
             readOnlyRootFilesystem: true

@@ -16,6 +16,13 @@ spec:
       labels:
         app: db
     spec:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 999
+        runAsGroup: 999
+        fsGroup: 999
+        seccompProfile:
+          type: RuntimeDefault
       containers:
         - name: db
           image: postgres:18
@@ -30,6 +37,11 @@ spec:
                 secretKeyRef:
                   name: db-secret
                   key: password
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+              - ALL
           startupProbe:
             exec:
               command:

@@ -79,3 +79,4 @@ override.tf.json
 .terraformrc
 terraform.rc
 postgres/secret.yaml
+votes-backup.sql
