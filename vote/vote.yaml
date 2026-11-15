@@ -15,6 +15,8 @@ spec:
       labels:
         app: vote
     spec:
+      serviceAccountName: vote-sa
+      automountServiceAccountToken: false
       containers:
         - name: vote
           resources:
