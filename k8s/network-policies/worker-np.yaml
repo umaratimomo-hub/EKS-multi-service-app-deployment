@@ -1,22 +1,27 @@
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
-  name: allow-db
+  name: worker-np
   namespace: voting-app
 spec:
   podSelector:
     matchLabels:
-      app: db
+      app: worker
   policyTypes:
   - Ingress
-  ingress:
-  - from:
+  - Egress
+  egress:
+  - to:
     - podSelector:
         matchLabels:
-          app: result
+          app: redis
+    ports:
+    - protocol: TCP
+      port: 6379
+  - to:
     - podSelector:
         matchLabels:
-          app: worker
+          app: db
     ports:
     - protocol: TCP
       port: 5432
