@@ -1,0 +1,11 @@
+resources:
+  - config
+  - db
+  - ingress
+  - namespace
+  - network-policies
+  - rbac
+  - redis
+  - result
+  - vote
+  - worker

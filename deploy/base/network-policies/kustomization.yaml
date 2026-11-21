@@ -1,0 +1,8 @@
+resources:
+  - db-np.yaml
+  - default-deny-np.yaml
+  - dns-np.yaml
+  - redis-np.yaml
+  - result-np.yaml
+  - vote-np.yaml
+  - worker-np.yaml

@@ -1,0 +1,7 @@
+resources:
+  - db.yaml
+  - default.yaml
+  - redis.yaml
+  - result.yaml
+  - vote.yaml
+  - worker.yaml
